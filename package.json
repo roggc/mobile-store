@@ -1,42 +1,52 @@
 {
-  "name": "mobile-store",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint ./src/**"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "ignorePatterns": [
-      "**/*.css"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "mobile-store",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@tanstack/react-router": "^0.0.1-beta.48",
+        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/react": "^13.4.0",
+        "@testing-library/user-event": "^13.5.0",
+        "react": "^18.2.0",
+        "react-context-slices": "^2.1.11",
+        "react-dom": "^18.2.0",
+        "react-scripts": "5.0.1",
+        "styled-components": "^5.3.6",
+        "web-vitals": "^2.1.4"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "lint": "eslint ./src/**",
+        "format": "prettier --write ./src --config ./.prettierrc",
+        "format:lint": "npm run format && npm run lint"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest",
+            "prettier"
+        ],
+        "ignorePatterns": [
+            "**/*.css"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "eslint-config-prettier": "^8.6.0",
+        "prettier": "2.8.3"
+    }
 }
