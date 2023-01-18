@@ -1,4 +1,4 @@
-export const ProductsListScreen = () => (
+export const ProductsList = () => (
     <>
         <div>products</div>
     </>

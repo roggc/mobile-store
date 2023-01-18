@@ -1,25 +1,15 @@
-import { createRouteConfig, createReactRouter } from '@tanstack/react-router'
-import { Layout, ProductsListScreen, ProductDetailsScreen } from 'components'
+import {
+    createRoutesFromElements,
+    createBrowserRouter,
+    Route,
+} from 'react-router-dom'
+import { Root, ProductDetails, ProductsList } from 'routes'
 
-export const getRouter = (isUserLogedIn: boolean) => {
-    const rootRoute = createRouteConfig({
-        component: Layout,
-    })
-    const productsListRoute = rootRoute.createRoute({
-        path: '/',
-        component: ProductsListScreen,
-    })
-    const productDetailsRoute = rootRoute.createRoute({
-        path: '/details',
-        component: ProductDetailsScreen,
-    })
-
-    const publicRoutes = [productsListRoute, productDetailsRoute]
-    const privateRoutes = []
-    const routeConfig = rootRoute.addChildren([
-        ...publicRoutes,
-        ...(isUserLogedIn ? privateRoutes : []),
-    ])
-
-    return createReactRouter({ routeConfig })
-}
+export const router = createBrowserRouter(
+    createRoutesFromElements(
+        <Route path="/" element={<Root />}>
+            <Route index element={<ProductsList />} />{' '}
+            <Route path="/details" element={<ProductDetails />} />
+        </Route>
+    )
+)
