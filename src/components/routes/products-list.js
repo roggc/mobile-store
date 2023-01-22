@@ -1,18 +1,27 @@
-import { useLoaderData } from 'react-router-dom'
 import { fetchApi, GET_ALL_PRODUCTS } from 'mock/api'
 import ProductCard from 'components/product-card/product-card'
 import styled from 'styled-components'
-
-export const loader = async () => {
-    const products = await fetchApi(GET_ALL_PRODUCTS)
-    return { products }
-}
+import { useEffect, useState } from 'react'
 
 const ProductsList = () => {
-    const { products } = useLoaderData()
+    const [products, setProducts] = useState([])
+    const [filterText, setFilterText] = useState('')
+
+    useEffect(() => {
+        ;(async () => {
+            setProducts(await fetchApi(GET_ALL_PRODUCTS, { f: filterText }))
+        })()
+    }, [filterText])
+
+    const onChangeFilterText = (e) => setFilterText(e.target.value)
+
     return (
         <ComponentContainer>
-            <SearchBox size={50} />
+            <SearchBox
+                size={50}
+                value={filterText}
+                onChange={onChangeFilterText}
+            />
             <ListContainer>
                 {products.map((product) => (
                     <ProductCard
