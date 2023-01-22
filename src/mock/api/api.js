@@ -1,6 +1,8 @@
 import { products } from './products'
 const API_DELAY = 500
+
 export const GET_ALL_PRODUCTS = 'get-all-products'
+export const GET_PRODUCT_BY_ID = 'get-product-by-id'
 
 export const fetchApi = (path, parameters = {}) =>
     new Promise((resolve) => {
@@ -19,6 +21,12 @@ export const fetchApi = (path, parameters = {}) =>
                         true
                     )
                 )
+                break
+            case GET_PRODUCT_BY_ID:
+                const { id: productID } = parameters
+                response = products.filter(
+                    (product) => product.id === productID
+                )[0]
                 break
             default:
                 response = []

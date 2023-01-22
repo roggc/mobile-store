@@ -2,18 +2,18 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const ProductCard = ({
-    product: { marca, modelo, precio, imagen },
+    product: { marca, modelo, precio, imagen, id },
     width,
     height,
     ...props
 }) => {
     const navigate = useNavigate()
 
-    const goToDetailsPage = () => navigate('/details')
+    const goToDetailsPage = (productID) => navigate(`/details/${productID}`)
 
     return (
         <ExtraContainer>
-            <CardContainer onClick={goToDetailsPage} {...props}>
+            <CardContainer onClick={() => goToDetailsPage(id)} {...props}>
                 <Image
                     src={imagen}
                     alt={`${marca}-${modelo}`}

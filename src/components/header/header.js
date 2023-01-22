@@ -2,6 +2,9 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+const BASE_10 = 10
+const INDEX_OF_SECOND_ITEM_IN_THE_LIST = 1
+
 const Header = ({ ...props }) => {
     const { pathname, search, hash } = useLocation()
     const navigate = useNavigate()
@@ -11,14 +14,17 @@ const Header = ({ ...props }) => {
 
     const goToPage = (index) => {
         const route = splitedPathname.reduce((result, page, index_, array) => {
-            if (index_ > index || index === 0) {
+            const isParam = !isNaN(parseInt(page, BASE_10))
+            if ((index_ > index && !isParam) || index === 0) {
                 return result
             }
             const isLastIndex = index_ === array.length - 1
             const newResult =
-                index === 1 ? `${result}${page}` : `${result}/${page}`
+                index_ === INDEX_OF_SECOND_ITEM_IN_THE_LIST
+                    ? `${result}${page}`
+                    : `${result}/${page}`
             return isLastIndex ? `${newResult}${search}${hash}` : newResult
-        }, '/')
+        }, '')
         navigate(route)
     }
 
@@ -31,14 +37,17 @@ const Header = ({ ...props }) => {
                     >{indexPageName}
                 </BreadCrumbsItem>
             ) : (
-                splitedPathname.map((page, index) => (
-                    <BreadCrumbsItem
-                        key={`${page}_${index}`}
-                        onClick={() => goToPage(index)}
-                    >
-                        >{index === 0 ? indexPageName : page}
-                    </BreadCrumbsItem>
-                ))
+                splitedPathname.map((page, index) => {
+                    const isParam = !isNaN(parseInt(page, BASE_10))
+                    return isParam ? null : (
+                        <BreadCrumbsItem
+                            key={`${page}_${index}`}
+                            onClick={() => goToPage(index)}
+                        >
+                            >{index === 0 ? indexPageName : page}
+                        </BreadCrumbsItem>
+                    )
+                })
             )}
         </BreadCrumbsContainer>
     )
