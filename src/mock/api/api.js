@@ -3,6 +3,9 @@ const API_DELAY = 500
 
 export const GET_ALL_PRODUCTS = 'get-all-products'
 export const GET_PRODUCT_BY_ID = 'get-product-by-id'
+export const ADD_PRODUCT_TO_THE_CART = 'add-product-to-the-cart'
+
+const cart = []
 
 export const fetchApi = (path, parameters = {}) =>
     new Promise((resolve) => {
@@ -27,6 +30,11 @@ export const fetchApi = (path, parameters = {}) =>
                 response = products.filter(
                     (product) => product.id === productID
                 )[0]
+                break
+            case ADD_PRODUCT_TO_THE_CART:
+                const addToCart = parameters
+                cart.push(addToCart)
+                response = { count: cart.length }
                 break
             default:
                 response = []

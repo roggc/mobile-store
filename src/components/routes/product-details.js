@@ -1,12 +1,13 @@
-import { fetchApi, GET_PRODUCT_BY_ID } from 'mock/api'
+import { ADD_PRODUCT_TO_THE_CART, fetchApi, GET_PRODUCT_BY_ID } from 'mock/api'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { useActions, count } from 'slices'
 import styled from 'styled-components'
 
 const ProductDetails = () => {
     const { productID } = useParams()
     const [
-        { imagen, marca, modelo, precio, colores, almacenajes },
+        { imagen, marca, modelo, precio, colores, almacenajes, id },
         setProduct,
     ] = useState({
         imagen: '',
@@ -16,6 +17,9 @@ const ProductDetails = () => {
         colores: [],
         almacenajes: [],
     })
+    const {
+        [count]: { set: setCountValue },
+    } = useActions()
 
     const [colorCode, setColorCode] = useState('')
     const [storageCode, setStorageCode] = useState('')
@@ -30,6 +34,18 @@ const ProductDetails = () => {
             setStorageCode(product_.almacenajes[0].code)
         })()
     }, [productID])
+
+    const addToCart = async () => {
+        setCountValue(
+            (
+                await fetchApi(ADD_PRODUCT_TO_THE_CART, {
+                    id,
+                    colorCode,
+                    storageCode,
+                })
+            ).count
+        )
+    }
 
     return (
         <ComponentContainer>
@@ -71,7 +87,9 @@ const ProductDetails = () => {
                             onChange={(e) => setColorCode(e.target.value)}
                         >
                             {colores.map(({ value, code }) => (
-                                <Option value={code}>{value}</Option>
+                                <Option key={code} value={code}>
+                                    {value}
+                                </Option>
                             ))}
                         </DropDown>
                     </ActionsItemContainer>
@@ -81,11 +99,17 @@ const ProductDetails = () => {
                             onChange={(e) => setStorageCode(e.target.value)}
                         >
                             {almacenajes.map(({ value, code }) => (
-                                <Option value={code}>{value}</Option>
+                                <Option key={code} value={code}>
+                                    {value}
+                                </Option>
                             ))}
                         </DropDown>
                     </ActionsItemContainer>
-                    <ActionsItemContainer></ActionsItemContainer>
+                    <ActionsItemContainer>
+                        <AcceptButton onClick={addToCart}>
+                            Add to cart
+                        </AcceptButton>
+                    </ActionsItemContainer>
                 </ActionsContainer>
             </ItemsContainer>
         </ComponentContainer>
@@ -158,3 +182,8 @@ const DropDown = styled.select`
 const Option = styled.option``
 
 const Label = styled.div``
+
+const AcceptButton = styled.button`
+    border-radius: 10px;
+    height: 40px;
+`
