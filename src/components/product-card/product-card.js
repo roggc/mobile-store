@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const ProductCard = ({
@@ -6,9 +7,13 @@ const ProductCard = ({
     height,
     ...props
 }) => {
+    const navigate = useNavigate()
+
+    const goToDetailsPage = () => navigate('/details')
+
     return (
         <ExtraContainer>
-            <CardContainer {...props}>
+            <CardContainer onClick={goToDetailsPage} {...props}>
                 <Image
                     src={imagen}
                     alt={`${marca}-${modelo}`}
@@ -32,6 +37,7 @@ const CardContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
 `
 
 const Image = styled.img`

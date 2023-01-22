@@ -1,16 +1,12 @@
-import { Link, Outlet } from 'react-router-dom'
-import styled from 'styled-components'
+import { Outlet } from 'react-router-dom'
+// import styled from 'styled-components'
+import Header from 'components/header/header'
 
 const Root = () => (
     <>
-        <Header>
-            <Link to="/">home</Link>
-            <Link to="/details">details</Link>
-        </Header>
+        <Header />
         <Outlet />
     </>
 )
-
-const Header = styled.div``
 
 export default Root
