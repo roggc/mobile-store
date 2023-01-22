@@ -5,16 +5,29 @@ import styled from 'styled-components'
 
 const ProductDetails = () => {
     const { productID } = useParams()
-    const [{ imagen, marca, modelo, precio }, setProduct] = useState({
+    const [
+        { imagen, marca, modelo, precio, colores, almacenajes },
+        setProduct,
+    ] = useState({
         imagen: '',
         marca: '',
         modelo: '',
         precio: '',
+        colores: [],
+        almacenajes: [],
     })
+
+    const [colorCode, setColorCode] = useState('')
+    const [storageCode, setStorageCode] = useState('')
 
     useEffect(() => {
         ;(async () => {
-            setProduct(await fetchApi(GET_PRODUCT_BY_ID, { id: productID }))
+            const product_ = await fetchApi(GET_PRODUCT_BY_ID, {
+                id: productID,
+            })
+            setProduct(product_)
+            setColorCode(product_.colores[0].code)
+            setStorageCode(product_.almacenajes[0].code)
         })()
     }, [productID])
 
@@ -50,6 +63,30 @@ const ProductDetails = () => {
                         </DescriptionItem>
                     </DescriptionContainer>
                 </DescriptionAndActionsContainer>
+                <ActionsContainer>
+                    <ActionsItemContainer>
+                        <Label>Select a color:</Label>
+                        <DropDown
+                            width={300}
+                            onChange={(e) => setColorCode(e.target.value)}
+                        >
+                            {colores.map(({ value, code }) => (
+                                <Option value={code}>{value}</Option>
+                            ))}
+                        </DropDown>
+                    </ActionsItemContainer>
+                    <ActionsItemContainer>
+                        <Label>Select storage capacity:</Label>
+                        <DropDown
+                            onChange={(e) => setStorageCode(e.target.value)}
+                        >
+                            {almacenajes.map(({ value, code }) => (
+                                <Option value={code}>{value}</Option>
+                            ))}
+                        </DropDown>
+                    </ActionsItemContainer>
+                    <ActionsItemContainer></ActionsItemContainer>
+                </ActionsContainer>
             </ItemsContainer>
         </ComponentContainer>
     )
@@ -62,6 +99,7 @@ const ComponentContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 10px;
 `
 
 const Image = styled.img`
@@ -92,8 +130,31 @@ const DescriptionContainer = styled.div`
 const DescriptionItem = styled.div`
     display: flex;
     justify-content: space-between;
+    gap: 10px;
 `
-const DescriptionItemElement = styled.div`
-    flex: 1;
-    white-space: nowrap;
+const DescriptionItemElement = styled.div``
+
+const ActionsContainer = styled.div`
+    border-radius: 10px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    align-items: stretch;
+    gap: 10px;
 `
+const ActionsItemContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+`
+
+const DropDown = styled.select`
+    border-radius: 10px;
+    height: 40px;
+    width: 200px;
+    padding: 10px;
+`
+const Option = styled.option``
+
+const Label = styled.div``
