@@ -44,5 +44,8 @@ const Item = styled.div``
 const ExtraContainer = styled.div`
     flex-basis: 24%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
+
+    --margin-left: auto;
+    --border: 1px solid red;
 `

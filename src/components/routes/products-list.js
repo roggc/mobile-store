@@ -11,16 +11,19 @@ export const loader = async () => {
 const ProductsList = () => {
     const { products } = useLoaderData()
     return (
-        <ListContainer>
-            {products?.map((product) => (
-                <ProductCard
-                    key={product.id}
-                    product={product}
-                    width={200}
-                    height={200}
-                />
-            ))}
-        </ListContainer>
+        <ComponentContainer>
+            <SearchBox size={50} />
+            <ListContainer>
+                {products.map((product) => (
+                    <ProductCard
+                        key={product.id}
+                        product={product}
+                        width={200}
+                        height={200}
+                    />
+                ))}
+            </ListContainer>
+        </ComponentContainer>
     )
 }
 
@@ -30,4 +33,17 @@ const ListContainer = styled.div`
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
+    justify-content: flex-end;
+`
+const ComponentContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+`
+
+const SearchBox = styled.input`
+    border-radius: 10px;
+    height: 40px;
+    align-self: flex-end;
 `
