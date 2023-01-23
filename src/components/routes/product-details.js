@@ -195,4 +195,5 @@ const Label = styled.div``
 const AcceptButton = styled.button`
     border-radius: 10px;
     height: 40px;
+    cursor: pointer;
 `

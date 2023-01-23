@@ -1,5 +1,5 @@
 import { products } from './products'
-const API_DELAY = 500
+const API_DELAY = 200
 
 export const GET_ALL_PRODUCTS = 'get-all-products'
 export const GET_PRODUCT_BY_ID = 'get-product-by-id'
