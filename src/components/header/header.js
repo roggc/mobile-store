@@ -70,6 +70,7 @@ const HeaderContainer = styled.div`
     display: flex;
     gap: 60px;
     justify-content: space-between;
+    padding: 10px;
 `
 const BreadCrumbsContainer = styled.div`
     display: flex;

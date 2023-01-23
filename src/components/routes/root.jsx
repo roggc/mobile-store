@@ -11,6 +11,4 @@ const Root = () => (
 
 export default Root
 
-const PageContainer = styled.div`
-    padding: 10px;
-`
+const PageContainer = styled.div``
