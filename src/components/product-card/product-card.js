@@ -14,12 +14,9 @@ const ProductCard = ({
     return (
         <ExtraContainer>
             <CardContainer onClick={() => goToDetailsPage(id)} {...props}>
-                <Image
-                    src={imagen}
-                    alt={`${marca}-${modelo}`}
-                    width={width}
-                    height={height}
-                />
+                <ImageContainer width={width} height={height}>
+                    <Image src={imagen} alt={`${marca}-${modelo}`} />
+                </ImageContainer>
                 <Item>{marca}</Item>
                 <Item>{modelo}</Item>
                 <Item>{precio}</Item>
@@ -40,9 +37,18 @@ const CardContainer = styled.div`
     cursor: pointer;
 `
 
+const ImageContainer = styled.div`
+    width: ${({ width }) => `${width}`}px;
+    height: ${({ height }) => `${height}`}px;
+    display: flex;
+    justify-content: center;
+`
+
 const Image = styled.img`
     border-radius: 10px;
     border: 1px solid black;
+    width: 100%;
+    object-fit: contain;
 `
 
 const Item = styled.div``
@@ -51,7 +57,4 @@ const ExtraContainer = styled.div`
     flex-basis: 24%;
     display: flex;
     justify-content: flex-end;
-
-    --margin-left: auto;
-    --border: 1px solid red;
 `
