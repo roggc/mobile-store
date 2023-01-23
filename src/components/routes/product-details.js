@@ -59,7 +59,9 @@ const ProductDetails = () => {
     return (
         <ComponentContainer>
             <ItemsContainer>
-                <Image src={imagen} width={200} />
+                <ImageContainer>
+                    <Image src={imagen} width={200} />
+                </ImageContainer>
                 <DescriptionAndActionsContainer>
                     <DescriptionContainer>
                         <DescriptionItem>
@@ -136,8 +138,16 @@ const ComponentContainer = styled.div`
 `
 
 const Image = styled.img`
+    max-width: 100%;
+    object-fit: contain;
+`
+
+const ImageContainer = styled.div`
     border-radius: 10px;
     border: 1px solid black;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
 `
 
 const DescriptionAndActionsContainer = styled.div`
@@ -150,6 +160,7 @@ const ItemsContainer = styled.div`
     display: flex;
     align-items: flex-start;
     gap: 30px;
+    align-items: stretch;
 `
 
 const DescriptionContainer = styled.div`
