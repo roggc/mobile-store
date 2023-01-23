@@ -1,8 +1,10 @@
+import { LAPSE_TIME_CACHE } from 'constants_'
 import { ADD_PRODUCT_TO_THE_CART, fetchApi, GET_PRODUCT_BY_ID } from 'mock/api'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useActions, count } from 'slices'
+import { useActions, count, useValues, products } from 'slices'
 import styled from 'styled-components'
+import { useTime } from 'hooks'
 
 const ProductDetails = () => {
     const { productID } = useParams()
@@ -20,20 +22,27 @@ const ProductDetails = () => {
     const {
         [count]: { set: setCountValue },
     } = useActions()
+    const { value: productsValue } = useValues(products)
+    const isValid = useTime(LAPSE_TIME_CACHE)
 
     const [colorCode, setColorCode] = useState('')
     const [storageCode, setStorageCode] = useState('')
 
     useEffect(() => {
         ;(async () => {
-            const product_ = await fetchApi(GET_PRODUCT_BY_ID, {
-                id: productID,
-            })
+            let product_
+            if (!isValid) {
+                product_ = await fetchApi(GET_PRODUCT_BY_ID, {
+                    id: productID,
+                })
+            } else {
+                product_ = productsValue.find(({ id }) => id === productID)
+            }
             setProduct(product_)
             setColorCode(product_.colores[0].code)
             setStorageCode(product_.almacenajes[0].code)
         })()
-    }, [productID])
+    }, [productID, isValid, productsValue])
 
     const addToCart = async () => {
         setCountValue(

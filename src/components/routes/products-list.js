@@ -1,17 +1,33 @@
-import { fetchApi, GET_ALL_PRODUCTS } from 'mock/api'
+import { fetchApi, GET_ALL_PRODUCTS, getFilteredProducts } from 'mock/api'
 import ProductCard from 'components/product-card/product-card'
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
+import { LAPSE_TIME_CACHE } from 'constants_'
+import { useTime } from 'hooks'
+import { useValues, useActions, products, time } from 'slices'
 
 const ProductsList = () => {
-    const [products, setProducts] = useState([])
+    const [filteredProducts, setFilteredProducts] = useState([])
     const [filterText, setFilterText] = useState('')
+    const isValid = useTime(LAPSE_TIME_CACHE)
+    const { value: productsValue } = useValues(products)
+    const {
+        [products]: { set: setProductsValue },
+        [time]: { set: setTimeValue },
+    } = useActions()
 
     useEffect(() => {
-        ;(async () => {
-            setProducts(await fetchApi(GET_ALL_PRODUCTS, { f: filterText }))
-        })()
-    }, [filterText])
+        if (!isValid) {
+            ;(async () => {
+                setProductsValue(await fetchApi(GET_ALL_PRODUCTS, { f: '' }))
+                setTimeValue(new Date().getTime())
+            })()
+        }
+    }, [isValid, setProductsValue, setTimeValue])
+
+    useEffect(() => {
+        setFilteredProducts(getFilteredProducts(filterText, productsValue))
+    }, [filterText, productsValue])
 
     const onChangeFilterText = (e) => setFilterText(e.target.value)
 
@@ -23,7 +39,7 @@ const ProductsList = () => {
                 onChange={onChangeFilterText}
             />
             <ListContainer>
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                     <ProductCard
                         key={product.id}
                         product={product}
