@@ -87,39 +87,39 @@ const ProductDetails = () => {
                             </DescriptionItemElement>
                         </DescriptionItem>
                     </DescriptionContainer>
+                    <ActionsContainer>
+                        <ActionsItemContainer>
+                            <Label>Select a color:</Label>
+                            <DropDown
+                                width={300}
+                                onChange={(e) => setColorCode(e.target.value)}
+                            >
+                                {colores.map(({ value, code }) => (
+                                    <Option key={code} value={code}>
+                                        {value}
+                                    </Option>
+                                ))}
+                            </DropDown>
+                        </ActionsItemContainer>
+                        <ActionsItemContainer>
+                            <Label>Select storage capacity:</Label>
+                            <DropDown
+                                onChange={(e) => setStorageCode(e.target.value)}
+                            >
+                                {almacenajes.map(({ value, code }) => (
+                                    <Option key={code} value={code}>
+                                        {value}
+                                    </Option>
+                                ))}
+                            </DropDown>
+                        </ActionsItemContainer>
+                        <ActionsItemContainer>
+                            <AcceptButton onClick={addToCart}>
+                                Add to cart
+                            </AcceptButton>
+                        </ActionsItemContainer>
+                    </ActionsContainer>
                 </DescriptionAndActionsContainer>
-                <ActionsContainer>
-                    <ActionsItemContainer>
-                        <Label>Select a color:</Label>
-                        <DropDown
-                            width={300}
-                            onChange={(e) => setColorCode(e.target.value)}
-                        >
-                            {colores.map(({ value, code }) => (
-                                <Option key={code} value={code}>
-                                    {value}
-                                </Option>
-                            ))}
-                        </DropDown>
-                    </ActionsItemContainer>
-                    <ActionsItemContainer>
-                        <Label>Select storage capacity:</Label>
-                        <DropDown
-                            onChange={(e) => setStorageCode(e.target.value)}
-                        >
-                            {almacenajes.map(({ value, code }) => (
-                                <Option key={code} value={code}>
-                                    {value}
-                                </Option>
-                            ))}
-                        </DropDown>
-                    </ActionsItemContainer>
-                    <ActionsItemContainer>
-                        <AcceptButton onClick={addToCart}>
-                            Add to cart
-                        </AcceptButton>
-                    </ActionsItemContainer>
-                </ActionsContainer>
             </ItemsContainer>
         </ComponentContainer>
     )
@@ -148,6 +148,7 @@ const DescriptionAndActionsContainer = styled.div`
 
 const ItemsContainer = styled.div`
     display: flex;
+    align-items: flex-start;
     gap: 30px;
 `
 
