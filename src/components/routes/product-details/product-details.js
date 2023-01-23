@@ -38,9 +38,11 @@ const ProductDetails = () => {
             } else {
                 product_ = productsValue.find(({ id }) => id === productID)
             }
-            setProduct(product_)
-            setColorCode(product_.colores[0].code)
-            setStorageCode(product_.almacenajes[0].code)
+            if (!!product_) {
+                setProduct(product_)
+                setColorCode(product_.colores[0].code)
+                setStorageCode(product_.almacenajes[0].code)
+            }
         })()
     }, [productID, isValid, productsValue])
 
@@ -95,9 +97,14 @@ const ProductDetails = () => {
                             <DropDown
                                 width={300}
                                 onChange={(e) => setColorCode(e.target.value)}
+                                data-testid="colors"
                             >
                                 {colores.map(({ value, code }) => (
-                                    <Option key={code} value={code}>
+                                    <Option
+                                        key={code}
+                                        value={code}
+                                        data-testid="colors-option"
+                                    >
                                         {value}
                                     </Option>
                                 ))}
@@ -107,9 +114,14 @@ const ProductDetails = () => {
                             <Label>Select storage capacity:</Label>
                             <DropDown
                                 onChange={(e) => setStorageCode(e.target.value)}
+                                data-testid="storages"
                             >
                                 {almacenajes.map(({ value, code }) => (
-                                    <Option key={code} value={code}>
+                                    <Option
+                                        key={code}
+                                        value={code}
+                                        data-testid="storages-option"
+                                    >
                                         {value}
                                     </Option>
                                 ))}
