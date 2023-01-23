@@ -1,1 +1,1 @@
-export * from './use-time'
+export * from './use-time/use-time'
