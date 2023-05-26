@@ -1,11 +1,11 @@
 import { RouterProvider } from 'react-router-dom'
 import { router } from 'other'
-import AppProvider from 'slices'
+import { Provider } from 'slices'
 
 const App = () => (
-    <AppProvider>
+    <Provider>
         <RouterProvider router={router}></RouterProvider>
-    </AppProvider>
+    </Provider>
 )
 
 export default App

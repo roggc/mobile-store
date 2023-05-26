@@ -2,7 +2,7 @@ import { LAPSE_TIME_CACHE } from 'constants_'
 import { ADD_PRODUCT_TO_THE_CART, fetchApi, GET_PRODUCT_BY_ID } from 'mock/api'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useActions, count, useValues, products } from 'slices'
+import { useSlice } from 'slices'
 import styled from 'styled-components'
 import { useTime } from 'hooks'
 
@@ -19,10 +19,8 @@ const ProductDetails = () => {
         colores: [],
         almacenajes: [],
     })
-    const {
-        [count]: { set: setCountValue },
-    } = useActions()
-    const { value: productsValue } = useValues(products)
+    const [, setCount] = useSlice('count')
+    const [products] = useSlice('products')
     const isValid = useTime(LAPSE_TIME_CACHE)
 
     const [colorCode, setColorCode] = useState('')
@@ -36,7 +34,7 @@ const ProductDetails = () => {
                     id: productID,
                 })
             } else {
-                product_ = productsValue.find(({ id }) => id === productID)
+                product_ = products.find(({ id }) => id === productID)
             }
             if (!!product_) {
                 setProduct(product_)
@@ -44,10 +42,10 @@ const ProductDetails = () => {
                 setStorageCode(product_.almacenajes[0].code)
             }
         })()
-    }, [productID, isValid, productsValue])
+    }, [productID, isValid, products])
 
     const addToCart = async () => {
-        setCountValue(
+        setCount(
             (
                 await fetchApi(ADD_PRODUCT_TO_THE_CART, {
                     id,

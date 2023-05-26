@@ -4,30 +4,27 @@ import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import { LAPSE_TIME_CACHE } from 'constants_'
 import { useTime } from 'hooks'
-import { useValues, useActions, products, time } from 'slices'
+import { useSlice } from 'slices'
 
 const ProductsList = () => {
     const [filteredProducts, setFilteredProducts] = useState([])
     const [filterText, setFilterText] = useState('')
     const isValid = useTime(LAPSE_TIME_CACHE)
-    const { value: productsValue } = useValues(products)
-    const {
-        [products]: { set: setProductsValue },
-        [time]: { set: setTimeValue },
-    } = useActions()
+    const [products, setProducts] = useSlice('products')
+    const [, setTime] = useSlice('time')
 
     useEffect(() => {
         if (!isValid) {
             ;(async () => {
-                setProductsValue(await fetchApi(GET_ALL_PRODUCTS, { f: '' }))
-                setTimeValue(new Date().getTime())
+                setProducts(await fetchApi(GET_ALL_PRODUCTS, { f: '' }))
+                setTime(new Date().getTime())
             })()
         }
-    }, [isValid, setProductsValue, setTimeValue])
+    }, [isValid, setProducts, setTime])
 
     useEffect(() => {
-        setFilteredProducts(getFilteredProducts(filterText, productsValue))
-    }, [filterText, productsValue])
+        setFilteredProducts(getFilteredProducts(filterText, products))
+    }, [filterText, products])
 
     const onChangeFilterText = (e) => setFilterText(e.target.value)
 

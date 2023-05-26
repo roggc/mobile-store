@@ -1,7 +1,7 @@
-import { useValues, time } from 'slices'
+import { useSlice } from 'slices'
 
 export const useTime = (lapse) => {
-    const { value: timeValue } = useValues(time)
-    const isValid = !!timeValue && new Date().getTime() - timeValue < lapse
+    const [time] = useSlice('time')
+    const isValid = !!time && new Date().getTime() - time < lapse
     return isValid
 }

@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react'
 import { useTime } from 'hooks'
 import { useEffect } from 'react'
-import AppProvider, { time, useActions } from 'slices'
+import { useSlice, Provider } from 'slices'
 
 beforeEach(() => {
     jest.useFakeTimers()
@@ -12,15 +12,13 @@ afterEach(() => {
 })
 
 const useTestUseTime = (isFirstRender, lapse) => {
-    const {
-        [time]: { set: setTimeValue },
-    } = useActions()
+    const [, setTime] = useSlice('time')
     const isValid = useTime(lapse)
     useEffect(() => {
         if (isFirstRender) {
-            setTimeValue(new Date().getTime())
+            setTime(new Date().getTime())
         }
-    }, [setTimeValue, isFirstRender])
+    }, [setTime, isFirstRender])
     return isValid
 }
 
@@ -28,7 +26,7 @@ it('is valid until it expires', () => {
     const { result, rerender } = renderHook(
         ({ isFirstRender, lapse }) => useTestUseTime(isFirstRender, lapse),
         {
-            wrapper: AppProvider,
+            wrapper: Provider,
             initialProps: { isFirstRender: true, lapse: 1000 },
         }
     )

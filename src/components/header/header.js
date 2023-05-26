@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { count, useValues } from 'slices'
+import { useSlice } from 'slices'
 
 const BASE_10 = 10
 const INDEX_OF_SECOND_ITEM_IN_THE_LIST = 1
@@ -9,7 +9,7 @@ const INDEX_OF_SECOND_ITEM_IN_THE_LIST = 1
 const Header = ({ ...props }) => {
     const { pathname, search, hash } = useLocation()
     const navigate = useNavigate()
-    const { value: countValue } = useValues(count)
+    const [count] = useSlice('count')
 
     const splitedPathname = pathname.split('/')
     const isRoot = pathname === '/'
@@ -59,7 +59,7 @@ const Header = ({ ...props }) => {
         <HeaderContainer {...props}>
             <Link to="/">home</Link>
             {renderBreadCrumbs()}
-            <Cart>{countValue}</Cart>
+            <Cart>{count}</Cart>
         </HeaderContainer>
     )
 }
