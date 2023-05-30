@@ -1,7 +1,7 @@
 import getHookAndProviderFromSlices from 'react-context-slices'
 
 export const { useSlice, Provider } = getHookAndProviderFromSlices({
-    count: 0,
-    products: [],
-    time: 0,
+    count: { initialState: 0 },
+    products: { initialState: [] },
+    time: { initialState: 0 },
 })
